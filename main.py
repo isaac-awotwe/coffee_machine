@@ -21,16 +21,12 @@ def change(pmt_total, cost):
    return pmt_total - cost
 
 def resources_check(coffee_type):
-    if MENU[coffee_type]["ingredients"]["water"] > resources["water"]:
-        print("Sorry, there is not enough water.")
-        return False
-    if MENU[coffee_type]["ingredients"]["coffee"] > resources["coffee"]:
-        print("Sorry, there is not enough coffee.")
-        return False
-    if MENU[coffee_type]["ingredients"]["milk"] > resources["milk"]:
-        print("Sorry, there is not enough milk.")
-        return False
+    for item in MENU[coffee_type]["ingredients"].keys():
+        if MENU[coffee_type]["ingredients"][item] > resources[item]:
+            print(f"Sorry, there is not enough {item}.")
+            return False
     return True
+
 
 def resource_balance(coffee_type):
     resources['water'] -= MENU[coffee_type]["ingredients"]["water"]
@@ -41,7 +37,7 @@ def resource_balance(coffee_type):
 machine_on = True
 
 while machine_on:
-    coffee_choice = input("What would you like? (espresso/latte/cappuccino). If you would rather want a report of resources, type 'report': ")
+    coffee_choice = input("What would you like? (espresso/latte/cappuccino): ")
     if coffee_choice == "report":
         generate_report()
     elif coffee_choice == "espresso" or coffee_choice == "latte" or coffee_choice == "cappuccino":
